@@ -1,3 +1,4 @@
+require 'erb'
 require 'json'
 
 class ColorGenerator
@@ -14,37 +15,29 @@ class ColorGenerator
   private
 
   def generate_elm_module
-    elm_file = File.new("./elm/Color.elm", "w")
-
-    color_type = <<-ELM
-type Color
-    = Color String
-    ELM
-
-    color_functions = @colors_hash.each_with_object([]) do |(color_name, color_set), elm_output|
-      color_set.each do |shade_name, color_value|
+    color_definitions = @colors_hash.each_with_object({}) do |(color_name, color_set), defn|
+      color_set.each do |shade_name, hex|
         function_name = color_name + shade_name.capitalize
-
-        color_function = <<-ELM
-#{function_name} : Color
-#{function_name} =
-    Color "#{color_value}"
-        ELM
-
-        elm_output << [function_name, color_function]
+        defn[function_name] = hex
       end
     end
 
-    # Define elm module
-    exported_function_names = color_functions.map { |pair| pair[0] }.sort.join ", "
-    module_string = <<-ELM
-module Color exposing (Color(..), #{exported_function_names})
+    template = ERB.new <<-ELM
+module Color exposing (Color(..), #{color_definitions.keys.sort.join ", "})
+
+
+type Color
+    = Color String
+
+<% color_definitions.each do |name, hex| %>
+
+<%= name %> : Color
+<%= name %> =
+    Color "<%= hex %>"
+<% end %>
     ELM
 
-    exported_functions = color_functions.map { |pair| pair[1] }.join "\n\n"
-
-    elm_file.puts(module_string + "\n\n" + color_type + "\n\n" + exported_functions)
-    elm_file.close
+    IO.write("./elm/Color.elm", template.result(binding))
   end
 end
 

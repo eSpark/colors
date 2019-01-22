@@ -5,6 +5,7 @@ type Color
     = Color String
 
 
+
 tealDark : Color
 tealDark =
     Color "#10808B"
@@ -223,3 +224,4 @@ grey20 =
 grey10 : Color
 grey10 =
     Color "#E5E5E5"
+
