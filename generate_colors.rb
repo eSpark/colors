@@ -9,16 +9,20 @@ class ColorGenerator
       self.new(*chunks)
     end
 
-    def r_weight(round)
+    def r_weight(round = 2)
       (r / 255.0).round round
     end
 
-    def g_weight(round)
+    def g_weight(round = 2)
       (g / 255.0).round round
     end
 
-    def b_weight(round)
+    def b_weight(round = 2)
       (b / 255.0).round round
+    end
+
+    def hex
+      sprintf "#%02x%02x%02x", r, g, b
     end
   end
 
@@ -54,7 +58,7 @@ import Color
     <%- sep = "{" -%>
     <%- shades.each do |shade, hex| -%>
     <%- rgb = RGB.from_hex(hex) -%>
-    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb <%= rgb.r_weight(2) %> <%= rgb.g_weight(2) %> <%= rgb.b_weight(2) %>
+    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb <%= rgb.r_weight %> <%= rgb.g_weight %> <%= rgb.b_weight %> -- <%= rgb.hex %>
     <%- sep = "," -%>
     <%- end -%>
     }
