@@ -1,6 +1,10 @@
-module ES.UI.Color exposing (blue, green, grey, orange, purple, red, teal, yellow)
+module ES.UI.Color exposing (Color, blue, green, grey, orange, purple, red, teal, yellow)
 
 import Color
+
+
+type alias Color =
+    Color.Color
 
 
 teal =

@@ -48,9 +48,13 @@ class ColorGenerator
     safe_mode = nil
     trim_mode = "-" # prevent <%- -%> from adding newlines
     template = ERB.new <<-ELM, safe_mode, trim_mode
-module ES.UI.Color exposing (#{@colors_hash.keys.join ", "})
+module ES.UI.Color exposing (Color, #{@colors_hash.keys.join ", "})
 
 import Color
+
+
+type alias Color =
+    Color.Color
 
 
 <%- @colors_hash.each do |family, shades| -%>
