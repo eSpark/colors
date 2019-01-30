@@ -1,8 +1,13 @@
-module ES.UI.Color exposing (Color(..), blue, green, grey, orange, purple, red, teal, yellow)
+module ES.UI.Color exposing (Color(..), blue, green, grey, orange, purple, red, teal, yellow, toString)
 
 
 type Color
     = Color String
+
+
+toString : Color -> String
+toString (Color str) =
+    str
 
 
 teal =
