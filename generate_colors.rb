@@ -14,27 +14,32 @@ class ColorGenerator
 
   private
 
-  def generate_elm_module
-    color_definitions = @colors_hash.each_with_object({}) do |(color_name, color_set), defn|
-      color_set.each do |shade_name, hex|
-        function_name = color_name + shade_name.capitalize
-        defn[function_name] = hex
-      end
-    end
+  def as_elm_name(raw)
+    # prepend x, because x is cool
+    #   e.g. 20 => x20
+    raw.match?(/^[a-z]/) ? raw : "x" + raw
+  end
 
-    template = ERB.new <<-ELM
-module Color exposing (Color(..), #{color_definitions.keys.sort.join ", "})
+  def generate_elm_module
+    safe_mode = nil
+    trim_mode = "-" # prevent <%- -%> from adding newlines
+    template = ERB.new <<-ELM, safe_mode, trim_mode
+module Color exposing (Color(..), #{@colors_hash.keys.sort.join ", "})
 
 
 type Color
     = Color String
+<%- @colors_hash.each do |family, shades| -%>
 
-<% color_definitions.each do |name, hex| %>
 
-<%= name %> : Color
-<%= name %> =
-    Color "<%= hex %>"
-<% end %>
+<%= as_elm_name(family) %> =
+    <%- sep = "{" -%>
+    <%- shades.each do |shade, hex| -%>
+    <%= sep %> <%= as_elm_name(shade) %> = Color "<%= hex %>"
+    <%- sep = "," -%>
+    <%- end -%>
+    }
+<%- end -%>
     ELM
 
     IO.write("./elm/Color.elm", template.result(binding))
