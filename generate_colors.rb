@@ -24,14 +24,14 @@ class ColorGenerator
     safe_mode = nil
     trim_mode = "-" # prevent <%- -%> from adding newlines
     template = ERB.new <<-ELM, safe_mode, trim_mode
-module ES.UI.Color exposing (Color(..), #{@colors_hash.keys.sort.join ", "})
+module ES.UI.Color exposing (Color(..), #{@colors_hash.keys.join ", "})
 
 
 type Color
     = Color String
+
+
 <%- @colors_hash.each do |family, shades| -%>
-
-
 <%= as_elm_name(family) %> =
     <%- sep = "{" -%>
     <%- shades.each do |shade, hex| -%>
@@ -43,6 +43,7 @@ type Color
     ELM
 
     IO.write("./elm/ES/UI/Color.elm", template.result(binding))
+    system "elm-format --yes ./elm/ES/UI/Color.elm"
   end
 end
 
