@@ -2,6 +2,26 @@ require 'erb'
 require 'json'
 
 class ColorGenerator
+  RGB = Struct.new(:r, :g, :b) do
+    def self.from_hex(val)
+      val = val[1..-1] if val.start_with?("#")
+      chunks = val.scan(/.{2}/).map { |num| num.to_i(16) }
+      self.new(*chunks)
+    end
+
+    def r_weight(round)
+      (r / 255.0).round round
+    end
+
+    def g_weight(round)
+      (g / 255.0).round round
+    end
+
+    def b_weight(round)
+      (b / 255.0).round round
+    end
+  end
+
   def initialize(colors_json_path)
     # Load colors
     @colors_json = File.open(colors_json_path, "r")
@@ -24,18 +44,17 @@ class ColorGenerator
     safe_mode = nil
     trim_mode = "-" # prevent <%- -%> from adding newlines
     template = ERB.new <<-ELM, safe_mode, trim_mode
-module ES.UI.Color exposing (Color(..), #{@colors_hash.keys.join ", "})
+module ES.UI.Color exposing (#{@colors_hash.keys.join ", "})
 
-
-type Color
-    = Color String
+import Color
 
 
 <%- @colors_hash.each do |family, shades| -%>
 <%= as_elm_name(family) %> =
     <%- sep = "{" -%>
     <%- shades.each do |shade, hex| -%>
-    <%= sep %> <%= as_elm_name(shade) %> = Color "<%= hex %>"
+    <%- rgb = RGB.from_hex(hex) -%>
+    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb <%= rgb.r_weight(2) %> <%= rgb.g_weight(2) %> <%= rgb.b_weight(2) %>
     <%- sep = "," -%>
     <%- end -%>
     }

@@ -1,81 +1,79 @@
-module ES.UI.Color exposing (Color(..), blue, green, grey, orange, purple, red, teal, yellow)
+module ES.UI.Color exposing (blue, green, grey, orange, purple, red, teal, yellow)
 
-
-type Color
-    = Color String
+import Color
 
 
 teal =
-    { dark = Color "#10808B"
-    , base = Color "#14A1AE"
-    , light = Color "#00C3C9"
-    , lighter = Color "#66DBDF"
-    , lightest = Color "#DAF57F"
+    { dark = Color.rgb 0.06 0.5 0.55
+    , base = Color.rgb 0.08 0.63 0.68
+    , light = Color.rgb 0.0 0.76 0.79
+    , lighter = Color.rgb 0.4 0.86 0.87
+    , lightest = Color.rgb 0.85 0.96 0.5
     }
 
 
 green =
-    { dark = Color "#538B00"
-    , base = Color "#68AE00"
-    , light = Color "#93D531"
-    , lighter = Color "#BEE683"
-    , lightest = Color "#DDF0C1"
+    { dark = Color.rgb 0.33 0.55 0.0
+    , base = Color.rgb 0.41 0.68 0.0
+    , light = Color.rgb 0.58 0.84 0.19
+    , lighter = Color.rgb 0.75 0.9 0.51
+    , lightest = Color.rgb 0.87 0.94 0.76
     }
 
 
 yellow =
-    { dark = Color "#C18F08"
-    , base = Color "#F2B30B"
-    , light = Color "#FFD054"
-    , lighter = Color "#FFE398"
-    , lightest = Color "#FFF1CD"
+    { dark = Color.rgb 0.76 0.56 0.03
+    , base = Color.rgb 0.95 0.7 0.04
+    , light = Color.rgb 1.0 0.82 0.33
+    , lighter = Color.rgb 1.0 0.89 0.6
+    , lightest = Color.rgb 1.0 0.95 0.8
     }
 
 
 orange =
-    { dark = Color "#C25200"
-    , base = Color "#F36700"
-    , light = Color "#FF8F3C"
-    , lighter = Color "#FFBC8A"
-    , lightest = Color "#FFE8D6"
+    { dark = Color.rgb 0.76 0.32 0.0
+    , base = Color.rgb 0.95 0.4 0.0
+    , light = Color.rgb 1.0 0.56 0.24
+    , lighter = Color.rgb 1.0 0.74 0.54
+    , lightest = Color.rgb 1.0 0.91 0.84
     }
 
 
 red =
-    { dark = Color "#B43838"
-    , base = Color "#E14747"
-    , light = Color "#FF6868"
-    , lighter = Color "#FFA4A4"
-    , lightest = Color "#FFD7D7"
+    { dark = Color.rgb 0.71 0.22 0.22
+    , base = Color.rgb 0.88 0.28 0.28
+    , light = Color.rgb 1.0 0.41 0.41
+    , lighter = Color.rgb 1.0 0.64 0.64
+    , lightest = Color.rgb 1.0 0.84 0.84
     }
 
 
 purple =
-    { dark = Color "#743E93"
-    , base = Color "#914EB8"
-    , light = Color "#CC7EEE"
-    , lighter = Color "#E0B2F5"
-    , lightest = Color "#F8EDFF"
+    { dark = Color.rgb 0.45 0.24 0.58
+    , base = Color.rgb 0.57 0.31 0.72
+    , light = Color.rgb 0.8 0.49 0.93
+    , lighter = Color.rgb 0.88 0.7 0.96
+    , lightest = Color.rgb 0.97 0.93 1.0
     }
 
 
 blue =
-    { dark = Color "#0A539B"
-    , base = Color "#0D68C2"
-    , light = Color "#4790D7"
-    , lighter = Color "#91BCE7"
-    , lightest = Color "#E0F0FF"
+    { dark = Color.rgb 0.04 0.33 0.61
+    , base = Color.rgb 0.05 0.41 0.76
+    , light = Color.rgb 0.28 0.56 0.84
+    , lighter = Color.rgb 0.57 0.74 0.91
+    , lightest = Color.rgb 0.88 0.94 1.0
     }
 
 
 grey =
-    { x90 = Color "#1A1A1A"
-    , x80 = Color "#333333"
-    , x70 = Color "#4D4D4D"
-    , x60 = Color "#666666"
-    , x50 = Color "#808080"
-    , x40 = Color "#999999"
-    , x30 = Color "#B3B3B3"
-    , x20 = Color "#CCCCCC"
-    , x10 = Color "#E5E5E5"
+    { x90 = Color.rgb 0.1 0.1 0.1
+    , x80 = Color.rgb 0.2 0.2 0.2
+    , x70 = Color.rgb 0.3 0.3 0.3
+    , x60 = Color.rgb 0.4 0.4 0.4
+    , x50 = Color.rgb 0.5 0.5 0.5
+    , x40 = Color.rgb 0.6 0.6 0.6
+    , x30 = Color.rgb 0.7 0.7 0.7
+    , x20 = Color.rgb 0.8 0.8 0.8
+    , x10 = Color.rgb 0.9 0.9 0.9
     }
