@@ -1,4 +1,4 @@
-module ES.UI.Color exposing (Color(..), blue, green, grey, orange, purple, red, teal, yellow, toString)
+module ES.UI.Color exposing (Color(..), blue, green, grey, orange, purple, red, teal, toString, yellow)
 
 
 type Color
