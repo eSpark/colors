@@ -2,11 +2,16 @@ require 'erb'
 require 'json'
 
 class ColorGenerator
-  RGB = Struct.new(:r, :g, :b) do
+  RGBA = Struct.new(:r, :g, :b, :a) do
     def self.from_hex(val)
       val = val[1..-1] if val.start_with?("#")
       chunks = val.scan(/.{2}/).map { |num| num.to_i(16) }
+      chunks.push(255) if chunks.size == 3
       self.new(*chunks)
+    end
+
+    def join_weight(sep, round = 2)
+      [r_weight(round), g_weight(round), b_weight(round), a_weight(round)].join(sep)
     end
 
     def r_weight(round = 2)
@@ -21,8 +26,16 @@ class ColorGenerator
       (b / 255.0).round round
     end
 
+    def a_weight(round = 2)
+      (a / 255.0).round round
+    end
+
     def hex
-      sprintf "#%02x%02x%02x", r, g, b
+      if a == 255
+        sprintf "#%02x%02x%02x", r, g, b
+      else
+        sprintf "#%02x%02x%02x%02x", r, g, b, a
+      end
     end
   end
 
@@ -59,13 +72,19 @@ type alias Color =
 
 <%- @colors_hash.each do |family, shades| -%>
 <%= as_elm_name(family) %> =
-    <%- sep = "{" -%>
-    <%- shades.each do |shade, hex| -%>
-    <%- rgb = RGB.from_hex(hex) -%>
-    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb <%= rgb.r_weight %> <%= rgb.g_weight %> <%= rgb.b_weight %> -- <%= rgb.hex %>
-    <%- sep = "," -%>
+    <%- if shades.is_a? String -%>
+      <%- rgba = RGBA.from_hex(shades) -%>
+      -- <%= rgba.hex %>
+      Color.rgba <%= rgba.join_weight(' ') %>
+    <%- else -%>
+      <%- sep = "{" -%>
+      <%- shades.each do |shade, hex| -%>
+        <%- rgba = RGBA.from_hex(hex) -%>
+        <%= sep %> <%= as_elm_name(shade) %> = Color.rgba <%= rgba.join_weight(' ') %> -- <%= rgba.hex %>
+        <%- sep = "," -%>
+      <%- end -%>
+      }
     <%- end -%>
-    }
 <%- end -%>
     ELM
 
