@@ -1,5 +1,7 @@
 module ES.UI.Color exposing (Color, black, blue, green, grey, orange, purple, red, teal, transparent, white, yellow)
 
+-- This is generated! Don't update manually!
+
 import Color
 
 

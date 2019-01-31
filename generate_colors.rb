@@ -63,6 +63,8 @@ class ColorGenerator
     template = ERB.new <<-ELM, safe_mode, trim_mode
 module ES.UI.Color exposing (Color, #{@colors_hash.keys.join ", "})
 
+-- This is generated! Don't update manually!
+
 import Color
 
 
@@ -88,8 +90,8 @@ type alias Color =
 <%- end -%>
     ELM
 
-    IO.write("./elm/ES/UI/Color.elm", template.result(binding))
-    system "elm-format --yes ./elm/ES/UI/Color.elm"
+    IO.write("dist/elm/ES/UI/Color.elm", template.result(binding))
+    system "elm-format --yes dist/elm/ES/UI/Color.elm"
   end
 end
 
