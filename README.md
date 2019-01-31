@@ -10,5 +10,5 @@ This has currently only been implemented for elm, but we may eventually
 generate packages for SASS or JS.
 
 
-[1]: https://esparklearning.atlassian.net/wiki/spaces/V5PD/pages/74448915/Using+colors+in+eSpark+WIP
+[1]: https://esparklearning.atlassian.net/wiki/spaces/V5PD/pages/74448915?atlOrigin=eyJpIjoiMjdhZWI0MjM3ODg3NGEyYjk5NzU3ZmJkMGJhYTdlMGMiLCJwIjoiYyJ9
 [2]: colors.json
