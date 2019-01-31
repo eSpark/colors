@@ -58,37 +58,34 @@ class ColorGenerator
   end
 
   def generate_elm_module
-    safe_mode = nil
-    trim_mode = "-" # prevent <%- -%> from adding newlines
-    template = ERB.new <<-ELM, safe_mode, trim_mode
-module ES.UI.Color exposing (Color, #{@colors_hash.keys.join ", "})
+    template = ERB.new <<~SQUIGGLY
+      module ES.UI.Color exposing (Color, <%= @colors_hash.keys.join ", " %>)
 
--- This is generated! Don't update manually!
+      -- This is generated! Don't update manually!
 
-import Color
+      import Color
 
 
-type alias Color =
-    Color.Color
+      type alias Color =
+          Color.Color
 
 
-<%- @colors_hash.each do |family, shades| -%>
-<%= as_elm_name(family) %> =
-    <%- if shades.is_a? String -%>
-      <%- rgba = RGBA.from_hex(shades) -%>
-      -- <%= rgba.hex %>
-      Color.rgba <%= rgba.join_weight(' ') %>
-    <%- else -%>
-      <%- sep = "{" -%>
-      <%- shades.each do |shade, hex| -%>
-        <%- rgba = RGBA.from_hex(hex) -%>
-        <%= sep %> <%= as_elm_name(shade) %> = Color.rgba <%= rgba.join_weight(' ') %> -- <%= rgba.hex %>
-        <%- sep = "," -%>
-      <%- end -%>
-      }
-    <%- end -%>
-<%- end -%>
-    ELM
+      <% @colors_hash.each do |family, shades| %>
+      <%= as_elm_name(family) %> =
+          <% if shades.is_a? String %>
+            <% rgba = RGBA.from_hex(shades) %>
+            -- <%= rgba.hex %>
+            Color.rgba <%= rgba.join_weight(' ') %>
+          <% else %>
+            <% shades.each_with_index do |(shade, hex), i| %>
+              <% sep = i == 0 ? "{" : "," %>
+              <% rgba = RGBA.from_hex(hex) %>
+              <%= sep %> <%= as_elm_name(shade) %> = Color.rgba <%= rgba.join_weight(' ') %> -- <%= rgba.hex %>
+            <% end %>
+            }
+          <% end %>
+      <% end %>
+    SQUIGGLY
 
     IO.write("dist/elm/ES/UI/Color.elm", template.result(binding))
     system "elm-format --yes dist/elm/ES/UI/Color.elm"
