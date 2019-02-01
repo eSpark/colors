@@ -2,19 +2,17 @@ require 'erb'
 require 'json'
 
 class ColorGenerator
-  RGBA = Struct.new(:r, :g, :b, :a) do
+  RGB = Struct.new(:r, :g, :b) do
     COLOR_MAX = 255.0
 
     def self.from_hex(val)
-      val = val.tr("#", "")
-      chunks = val.scan(/.{2}/).map { |num| num.to_i(16) }
-      chunks.push(COLOR_MAX) if chunks.size == 3
+      chunks = val.scan(/[0-9a-f]{2}/i).map { |num| num.to_i(16) }
       self.new(*chunks)
     end
 
     def join(sep = ", ", &transform)
       transform ||= :itself
-      [r, g, b, a].map(&transform).join(sep)
+      [r, g, b].map(&transform).join(sep)
     end
 
     def join_intensity(sep, scale = 2)
@@ -22,11 +20,7 @@ class ColorGenerator
     end
 
     def hex
-      if a == COLOR_MAX
-        sprintf("#%02x%02x%02x", r, g, b)
-      else
-        sprintf("#%02x%02x%02x%02x", r, g, b, a)
-      end
+      sprintf("#%02x%02x%02x", r, g, b)
     end
   end
 
@@ -50,7 +44,7 @@ class ColorGenerator
 
   def generate_elm_module
     template = ERB.new <<~SQUIGGLY
-      module ES.UI.Color exposing (Color, <%= @colors_hash.keys.join ", " %>)
+      module ES.UI.Color exposing (Color, black, white, transparent, <%= @colors_hash.keys.join ", " %>)
 
       -- This is generated! Don't update manually!
 
@@ -61,20 +55,29 @@ class ColorGenerator
           Color.Color
 
 
+      black : Color
+      black =
+          Color.rgb 0.0 0.0 0.0
+
+
+      white : Color
+      white =
+          Color.rgb 1.0 1.0 1.0
+
+
+      transparent : Color
+      transparent =
+          Color.rgba 0.0 0.0 0.0 0.0
+
+
       <% @colors_hash.each do |family, shades| %>
       <%= as_elm_name(family) %> =
-          <% if shades.is_a? String %>
-            <% rgba = RGBA.from_hex(shades) %>
-            -- <%= rgba.hex %>
-            Color.rgba <%= rgba.join_intensity(' ') %>
-          <% else %>
-            <% shades.each_with_index do |(shade, hex), i| %>
-              <% sep = i == 0 ? "{" : "," %>
-              <% rgba = RGBA.from_hex(hex) %>
-              <%= sep %> <%= as_elm_name(shade) %> = Color.rgba <%= rgba.join_intensity(' ') %> -- <%= rgba.hex %>
-            <% end %>
-            }
-          <% end %>
+        <% shades.each_with_index do |(shade, hex), i| %>
+          <% sep = i == 0 ? "{" : "," %>
+          <% rgb = RGB.from_hex(hex) %>
+          <%= sep %> <%= as_elm_name(shade) %> = Color.rgb255 <%= rgb.join(' ') %> -- <%= rgb.hex %>
+        <% end %>
+        }
       <% end %>
     SQUIGGLY
 
