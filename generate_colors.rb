@@ -3,38 +3,29 @@ require 'json'
 
 class ColorGenerator
   RGBA = Struct.new(:r, :g, :b, :a) do
+    COLOR_MAX = 255.0
+
     def self.from_hex(val)
-      val = val[1..-1] if val.start_with?("#")
+      val = val.tr("#", "")
       chunks = val.scan(/.{2}/).map { |num| num.to_i(16) }
-      chunks.push(255) if chunks.size == 3
+      chunks.push(COLOR_MAX) if chunks.size == 3
       self.new(*chunks)
     end
 
-    def join_weight(sep, round = 2)
-      [r_weight(round), g_weight(round), b_weight(round), a_weight(round)].join(sep)
+    def join(sep = ", ", &transform)
+      transform ||= :itself
+      [r, g, b, a].map(&transform).join(sep)
     end
 
-    def r_weight(round = 2)
-      (r / 255.0).round round
-    end
-
-    def g_weight(round = 2)
-      (g / 255.0).round round
-    end
-
-    def b_weight(round = 2)
-      (b / 255.0).round round
-    end
-
-    def a_weight(round = 2)
-      (a / 255.0).round round
+    def join_intensity(sep, scale = 2)
+      join(sep) { |i| (i / COLOR_MAX).round(scale) }
     end
 
     def hex
-      if a == 255
-        sprintf "#%02x%02x%02x", r, g, b
+      if a == COLOR_MAX
+        sprintf("#%02x%02x%02x", r, g, b)
       else
-        sprintf "#%02x%02x%02x%02x", r, g, b, a
+        sprintf("#%02x%02x%02x%02x", r, g, b, a)
       end
     end
   end
@@ -75,12 +66,12 @@ class ColorGenerator
           <% if shades.is_a? String %>
             <% rgba = RGBA.from_hex(shades) %>
             -- <%= rgba.hex %>
-            Color.rgba <%= rgba.join_weight(' ') %>
+            Color.rgba <%= rgba.join_intensity(' ') %>
           <% else %>
             <% shades.each_with_index do |(shade, hex), i| %>
               <% sep = i == 0 ? "{" : "," %>
               <% rgba = RGBA.from_hex(hex) %>
-              <%= sep %> <%= as_elm_name(shade) %> = Color.rgba <%= rgba.join_weight(' ') %> -- <%= rgba.hex %>
+              <%= sep %> <%= as_elm_name(shade) %> = Color.rgba <%= rgba.join_intensity(' ') %> -- <%= rgba.hex %>
             <% end %>
             }
           <% end %>
