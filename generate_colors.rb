@@ -3,8 +3,6 @@ require 'json'
 
 class ColorGenerator
   RGB = Struct.new(:r, :g, :b) do
-    COLOR_MAX = 255.0
-
     def self.from_hex(val)
       chunks = val.scan(/[0-9a-f]{2}/i).map { |num| num.to_i(16) }
       self.new(*chunks)
@@ -13,10 +11,6 @@ class ColorGenerator
     def join(sep = ", ", &transform)
       transform ||= :itself
       [r, g, b].map(&transform).join(sep)
-    end
-
-    def join_intensity(sep, scale = 2)
-      join(sep) { |i| (i / COLOR_MAX).round(scale) }
     end
 
     def hex
@@ -43,7 +37,7 @@ class ColorGenerator
   end
 
   def generate_elm_module
-    template = ERB.new <<~SQUIGGLY
+    template = ERB.new <<~ELM
       module ES.UI.Color exposing (Color, black, white, transparent, <%= @colors_hash.keys.join ", " %>)
 
       -- This is generated! Don't update manually!
@@ -79,7 +73,7 @@ class ColorGenerator
         <% end %>
         }
       <% end %>
-    SQUIGGLY
+    ELM
 
     IO.write("dist/elm/ES/UI/Color.elm", template.result(binding))
     system "elm-format --yes dist/elm/ES/UI/Color.elm"
