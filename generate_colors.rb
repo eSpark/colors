@@ -32,10 +32,13 @@ class ColorGenerator
   end
 
   def generate
+    safe_level = nil
+    trim_mode = "%-"
+
     Dir.glob("tmpl/**/*") do |template_path|
       next if File.directory?(template_path)
 
-      erb = ERB.new IO.read(template_path)
+      erb = ERB.new(IO.read(template_path), safe_level, trim_mode)
       target_path = template_path.sub("tmpl", "dist").chomp(".erb")
       IO.write(target_path, erb.result(binding))
     end
