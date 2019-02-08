@@ -15,6 +15,10 @@ class ColorGenerator
       [r, g, b].map(&transform).join(sep)
     end
 
+    def join_intensity(sep = ", ")
+      self.join(sep) { |item| (item / 255.0).round(2) }
+    end
+
     def hex
       sprintf("#%02x%02x%02x", r, g, b)
     end
