@@ -1,0 +1,7 @@
+/* <%= GENERATED_BLURB %> */
+
+<%- colors_hash.each do |family, shades| -%>
+  <%- shades.each do |shade, hex| -%>
+$es-color-<%= family %>-<%= shade %>: <%= hex %>;
+  <%- end -%>
+<%- end -%>

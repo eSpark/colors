@@ -1,0 +1,35 @@
+module ES.UI.Color exposing (Color, black, white, transparent, <%= colors_hash.keys.join ", " %>)
+
+-- <%= GENERATED_BLURB %>
+
+import Color
+
+
+type alias Color =
+    Color.Color
+
+
+black : Color
+black =
+    Color.rgb 0.0 0.0 0.0
+
+
+white : Color
+white =
+    Color.rgb 1.0 1.0 1.0
+
+
+transparent : Color
+transparent =
+    Color.rgba 0.0 0.0 0.0 0.0
+
+
+<% colors_hash.each do |family, shades| %>
+<%= as_elm_name(family) %> =
+  <% shades.each_with_index do |(shade, hex), i| %>
+    <% sep = i == 0 ? "{" : "," %>
+    <% rgb = RGB.from_hex(hex) %>
+    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb255 <%= rgb.join(' ') %> -- <%= rgb.hex %>
+  <% end %>
+  }
+<% end %>
