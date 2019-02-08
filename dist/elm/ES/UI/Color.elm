@@ -100,144 +100,144 @@ grey =
     }
 
 
-familyName : Color -> String
-familyName color =
+identify : Color -> { family : String, shade : String, hex : String }
+identify color =
     let
         { r, g, b } =
-            Color.toRgba
+            Color.toRgba color
     in
     case ( r, g, b ) of
         ( 0.06, 0.5, 0.55 ) ->
-            "teal"
+            { family = "teal", shade = "dark", hex = "#10808B" }
 
         ( 0.08, 0.63, 0.68 ) ->
-            "teal"
+            { family = "teal", shade = "base", hex = "#14A1AE" }
 
         ( 0.0, 0.76, 0.79 ) ->
-            "teal"
+            { family = "teal", shade = "light", hex = "#00C3C9" }
 
         ( 0.4, 0.86, 0.87 ) ->
-            "teal"
+            { family = "teal", shade = "lighter", hex = "#66DBDF" }
 
         ( 0.85, 0.96, 0.97 ) ->
-            "teal"
+            { family = "teal", shade = "lightest", hex = "#DAF5F7" }
 
         ( 0.33, 0.55, 0.0 ) ->
-            "green"
+            { family = "green", shade = "dark", hex = "#538B00" }
 
         ( 0.41, 0.68, 0.0 ) ->
-            "green"
+            { family = "green", shade = "base", hex = "#68AE00" }
 
         ( 0.58, 0.84, 0.19 ) ->
-            "green"
+            { family = "green", shade = "light", hex = "#93D531" }
 
         ( 0.75, 0.9, 0.51 ) ->
-            "green"
+            { family = "green", shade = "lighter", hex = "#BEE683" }
 
         ( 0.87, 0.94, 0.76 ) ->
-            "green"
+            { family = "green", shade = "lightest", hex = "#DDF0C1" }
 
         ( 0.76, 0.56, 0.03 ) ->
-            "yellow"
+            { family = "yellow", shade = "dark", hex = "#C18F08" }
 
         ( 0.95, 0.7, 0.04 ) ->
-            "yellow"
+            { family = "yellow", shade = "base", hex = "#F2B30B" }
 
         ( 1.0, 0.82, 0.33 ) ->
-            "yellow"
+            { family = "yellow", shade = "light", hex = "#FFD054" }
 
         ( 1.0, 0.89, 0.6 ) ->
-            "yellow"
+            { family = "yellow", shade = "lighter", hex = "#FFE398" }
 
         ( 1.0, 0.95, 0.8 ) ->
-            "yellow"
+            { family = "yellow", shade = "lightest", hex = "#FFF1CD" }
 
         ( 0.76, 0.32, 0.0 ) ->
-            "orange"
+            { family = "orange", shade = "dark", hex = "#C25200" }
 
         ( 0.95, 0.4, 0.0 ) ->
-            "orange"
+            { family = "orange", shade = "base", hex = "#F36700" }
 
         ( 1.0, 0.56, 0.24 ) ->
-            "orange"
+            { family = "orange", shade = "light", hex = "#FF8F3C" }
 
         ( 1.0, 0.74, 0.54 ) ->
-            "orange"
+            { family = "orange", shade = "lighter", hex = "#FFBC8A" }
 
         ( 1.0, 0.91, 0.84 ) ->
-            "orange"
+            { family = "orange", shade = "lightest", hex = "#FFE8D6" }
 
         ( 0.71, 0.22, 0.22 ) ->
-            "red"
+            { family = "red", shade = "dark", hex = "#B43838" }
 
         ( 0.88, 0.28, 0.28 ) ->
-            "red"
+            { family = "red", shade = "base", hex = "#E14747" }
 
         ( 1.0, 0.41, 0.41 ) ->
-            "red"
+            { family = "red", shade = "light", hex = "#FF6868" }
 
         ( 1.0, 0.64, 0.64 ) ->
-            "red"
+            { family = "red", shade = "lighter", hex = "#FFA4A4" }
 
         ( 1.0, 0.84, 0.84 ) ->
-            "red"
+            { family = "red", shade = "lightest", hex = "#FFD7D7" }
 
         ( 0.45, 0.24, 0.58 ) ->
-            "purple"
+            { family = "purple", shade = "dark", hex = "#743E93" }
 
         ( 0.57, 0.31, 0.72 ) ->
-            "purple"
+            { family = "purple", shade = "base", hex = "#914EB8" }
 
         ( 0.8, 0.49, 0.93 ) ->
-            "purple"
+            { family = "purple", shade = "light", hex = "#CC7EEE" }
 
         ( 0.88, 0.7, 0.96 ) ->
-            "purple"
+            { family = "purple", shade = "lighter", hex = "#E0B2F5" }
 
         ( 0.97, 0.93, 1.0 ) ->
-            "purple"
+            { family = "purple", shade = "lightest", hex = "#F8EDFF" }
 
         ( 0.04, 0.33, 0.61 ) ->
-            "blue"
+            { family = "blue", shade = "dark", hex = "#0A539B" }
 
         ( 0.05, 0.41, 0.76 ) ->
-            "blue"
+            { family = "blue", shade = "base", hex = "#0D68C2" }
 
         ( 0.28, 0.56, 0.84 ) ->
-            "blue"
+            { family = "blue", shade = "light", hex = "#4790D7" }
 
         ( 0.57, 0.74, 0.91 ) ->
-            "blue"
+            { family = "blue", shade = "lighter", hex = "#91BCE7" }
 
         ( 0.88, 0.94, 1.0 ) ->
-            "blue"
+            { family = "blue", shade = "lightest", hex = "#E0F0FF" }
 
         ( 0.1, 0.1, 0.1 ) ->
-            "grey"
+            { family = "grey", shade = "90", hex = "#1A1A1A" }
 
         ( 0.2, 0.2, 0.2 ) ->
-            "grey"
+            { family = "grey", shade = "80", hex = "#333333" }
 
         ( 0.3, 0.3, 0.3 ) ->
-            "grey"
+            { family = "grey", shade = "70", hex = "#4D4D4D" }
 
         ( 0.4, 0.4, 0.4 ) ->
-            "grey"
+            { family = "grey", shade = "60", hex = "#666666" }
 
         ( 0.5, 0.5, 0.5 ) ->
-            "grey"
+            { family = "grey", shade = "50", hex = "#808080" }
 
         ( 0.6, 0.6, 0.6 ) ->
-            "grey"
+            { family = "grey", shade = "40", hex = "#999999" }
 
         ( 0.7, 0.7, 0.7 ) ->
-            "grey"
+            { family = "grey", shade = "30", hex = "#B3B3B3" }
 
         ( 0.8, 0.8, 0.8 ) ->
-            "grey"
+            { family = "grey", shade = "20", hex = "#CCCCCC" }
 
         ( 0.9, 0.9, 0.9 ) ->
-            "grey"
+            { family = "grey", shade = "10", hex = "#E5E5E5" }
 
         _ ->
             "unknown"

@@ -35,8 +35,8 @@ transparent =
 <% end %>
 
 
-familyName : Color -> String
-familyName color =
+identify : Color -> { family : String, shade : String, hex : String }
+identify color =
   let
     { r, g, b } =
       Color.toRgba color
@@ -46,7 +46,7 @@ familyName color =
   <% shades.each_with_index do |(shade, hex), i| %>
     <% rgb = RGB.from_hex(hex) %>
     (<%= rgb.join_intensity(", ") %>) ->
-      "<%= family %>"
+      { family = "<%= family %>", shade = "<%= shade %>", hex = "<%= hex %>" }
   <% end %>
 <% end %>
 
