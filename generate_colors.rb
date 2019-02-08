@@ -2,6 +2,8 @@ require 'erb'
 require 'json'
 
 class ColorGenerator
+  GENERATED_BLURB = "This is generated! Don't update manually!"
+
   RGB = Struct.new(:r, :g, :b) do
     def self.from_hex(val)
       chunks = val.scan(/[0-9a-f]{2}/i).map { |num| num.to_i(16) }
