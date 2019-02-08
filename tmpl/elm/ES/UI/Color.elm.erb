@@ -1,4 +1,4 @@
-module ES.UI.Color exposing (Color, black, white, transparent, <%= colors_hash.keys.join ", " %>)
+module ES.UI.Color exposing (Color, black, white, transparent, familyName, <%= colors_hash.keys.join ", " %>)
 
 -- <%= GENERATED_BLURB %>
 
@@ -29,7 +29,26 @@ transparent =
   <% shades.each_with_index do |(shade, hex), i| %>
     <% sep = i == 0 ? "{" : "," %>
     <% rgb = RGB.from_hex(hex) %>
-    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb255 <%= rgb.join(' ') %> -- <%= rgb.hex %>
+    <%= sep %> <%= as_elm_name(shade) %> = Color.rgb <%= rgb.join_intensity(' ') %> -- <%= hex %>
   <% end %>
   }
 <% end %>
+
+
+familyName : Color -> String
+familyName color =
+  let
+    { r, g, b } =
+      Color.toRgba color
+  in
+  case ( r, g, b ) of
+<% colors_hash.each do |family, shades| %>
+  <% shades.each_with_index do |(shade, hex), i| %>
+    <% rgb = RGB.from_hex(hex) %>
+    (<%= rgb.join_intensity(", ") %>) ->
+      "<%= family %>"
+  <% end %>
+<% end %>
+
+    _ ->
+      "unknown"
