@@ -2,7 +2,6 @@
 
 const fs = require("fs-extra");
 const path = require("path");
-const { exec } = require("child_process");
 
 const Handlebars = require("handlebars");
 const colorConvert = require("color-convert");
@@ -48,14 +47,9 @@ async function processTemplate(templatePath) {
   return fs.writeFile(outPath, result);
 }
 
-function postProcess() {
-  return exec("elm-format --yes dist/elm");
-}
-
 async function main() {
   const paths = await files("./tmpl");
   await Promise.all(paths.map(processTemplate));
-  return postProcess();
 }
 
 main();

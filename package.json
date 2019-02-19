@@ -9,6 +9,10 @@
     "colors.json",
     "dist/"
   ],
+  "scripts": {
+    "generate": "node generate_colors.js",
+    "postgenerate": "elm-format --elm-version=0.19 --yes dist/elm"
+  },
   "author": "eSpark",
   "license": "UNLICENSED",
   "homepage": "https://github.com/eSpark/colors",
