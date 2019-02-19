@@ -1,0 +1,19 @@
+{
+  "name": "@eSpark/colors",
+  "version": "0.0.0",
+  "description": "This repo contains packages that eSpark can use for consistent color usage across products.",
+  "main": "colors.json",
+  "sass": "dist/_color.scss",
+  "style": "dist/color.css",
+  "files": [
+    "colors.json",
+    "dist/"
+  ],
+  "author": "eSpark",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/eSpark/colors",
+  "repository": {
+    "type": "https",
+    "url": "https://github.com/eSpark/colors.git"
+  }
+}
