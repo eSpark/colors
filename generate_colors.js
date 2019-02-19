@@ -7,7 +7,10 @@ const Handlebars = require("handlebars");
 const colorConvert = require("color-convert");
 const klaw = require("klaw");
 
-const COLORS_JSON = require("./colors.json");
+const TEMPLATE_DATA = {
+  GENERATED_BLURB: "This is generated! Don't update manually!",
+  colors: require("./colors.json")
+}
 
 /**
  * Convert the string into a usable programming identifier
@@ -37,10 +40,7 @@ function files(path) {
 async function processTemplate(templatePath) {
   const source = await fs.readFile(templatePath, { encoding: "utf8" });
   const template = Handlebars.compile(source, { noEscape: true });
-  const result = template({
-    GENERATED_BLURB: "This is generated! Don't update manually!",
-    colors: COLORS_JSON
-  });
+  const result = template(TEMPLATE_DATA);
 
   const outPath = templatePath.replace("tmpl", "dist").replace(/.hbs$/, "");
   await fs.mkdirp(path.dirname(outPath));
