@@ -15,5 +15,12 @@
   "repository": {
     "type": "https",
     "url": "https://github.com/eSpark/colors.git"
+  },
+  "devDependencies": {
+    "color-convert": "^2.0.0",
+    "elm-format": "^0.8.1",
+    "fs-extra": "^7.0.1",
+    "handlebars": "^4.1.0",
+    "klaw": "^3.0.0"
   }
 }
