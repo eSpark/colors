@@ -10,34 +10,26 @@ const klaw = require("klaw");
 
 const COLORS_JSON = require("./colors.json");
 
-Handlebars.registerHelper("ternary", (predicate, yes, no) => {
-  return predicate ? yes : no;
-});
-
+/**
+ * Convert the string into a usable programming identifier
+ */
 Handlebars.registerHelper("identifier", rawString => {
   // prepend x, because x is cool
   //   e.g. 20 => x20
   return /^[a-z]/.test(rawString) ? rawString : `x${rawString}`;
 });
 
-Handlebars.registerHelper("keysJoin", (obj, sep) => {
-  return Object.keys(obj).join(sep);
-});
 
-Handlebars.registerHelper("rgbJoin", (hex, sep) => {
-  const values = colorConvert.hex.rgb(hex);
-  return values.join(sep);
-});
+Handlebars.registerHelper("ternary", (predicate, yes, no) => predicate ? yes : no);
+Handlebars.registerHelper("join", (sep, array) => array.join(sep));
+Handlebars.registerHelper("keys", obj => Object.keys(obj));
+Handlebars.registerHelper("rgb", hex => colorConvert.hex.rgb(hex));
 
 function files(path) {
   return new Promise((resolve, reject) => {
     const paths = [];
     klaw(path)
-      .on("data", item => {
-        if (!item.stats.isDirectory()) {
-          paths.push(item.path);
-        }
-      })
+      .on("data", item => item.stats.isFile() && paths.push(item.path))
       .on("error", reject)
       .on("end", () => resolve(paths));
   });

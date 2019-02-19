@@ -1,4 +1,4 @@
-module ES.UI.Color exposing (Color, black, white, transparent, {{keysJoin colors ","}})
+module ES.UI.Color exposing (Color, black, white, transparent, {{join "," (keys colors)}})
 
 -- {{GENERATED_BLURB}}
 
@@ -27,7 +27,7 @@ transparent =
 {{#each colors as |shades family|}}
 {{identifier family}} =
   {{#each shades as |hex shade|}}
-    {{ternary @first "{" ","}} {{identifier shade}} = Color.rgb255 {{rgbJoin hex " "}} -- {{hex}}
+    {{ternary @first "{" ","}} {{identifier shade}} = Color.rgb255 {{join " " (rgb hex)}} -- {{hex}}
   {{/each}}
   }
 {{/each}}
