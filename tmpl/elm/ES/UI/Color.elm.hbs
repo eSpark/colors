@@ -1,0 +1,33 @@
+module ES.UI.Color exposing (Color, black, white, transparent, {{join "," (keys colors)}})
+
+-- {{GENERATED_BLURB}}
+
+import Color
+
+
+type alias Color =
+    Color.Color
+
+
+black : Color
+black =
+    Color.rgb 0.0 0.0 0.0
+
+
+white : Color
+white =
+    Color.rgb 1.0 1.0 1.0
+
+
+transparent : Color
+transparent =
+    Color.rgba 0.0 0.0 0.0 0.0
+
+
+{{#each colors as |shades family|}}
+{{identifier family}} =
+  {{#each shades as |hex shade|}}
+    {{ternary @first "{" ","}} {{identifier shade}} = Color.rgb255 {{join " " (rgb hex)}} -- {{hex}}
+  {{/each}}
+  }
+{{/each}}

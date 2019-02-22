@@ -1,0 +1,9 @@
+/* {{GENERATED_BLURB}} */
+
+:root {
+{{#each colors as |shades family|}}
+  {{#each shades as |hex shade|}}
+    --es-color-{{family}}-{{shade}}: {{hex}};
+  {{/each}}
+{{/each}}
+}

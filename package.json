@@ -1,0 +1,30 @@
+{
+  "name": "@eSpark/colors",
+  "version": "0.0.0",
+  "description": "This repo contains packages that eSpark can use for consistent color usage across products.",
+  "main": "colors.json",
+  "sass": "dist/_color.scss",
+  "style": "dist/color.css",
+  "files": [
+    "colors.json",
+    "dist/"
+  ],
+  "scripts": {
+    "generate": "node generate_colors.js",
+    "postgenerate": "elm-format --elm-version=0.19 --yes dist/elm"
+  },
+  "author": "eSpark",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/eSpark/colors",
+  "repository": {
+    "type": "https",
+    "url": "https://github.com/eSpark/colors.git"
+  },
+  "devDependencies": {
+    "color-convert": "^2.0.0",
+    "elm-format": "^0.8.1",
+    "fs-extra": "^7.0.1",
+    "handlebars": "^4.1.0",
+    "klaw": "^3.0.0"
+  }
+}
